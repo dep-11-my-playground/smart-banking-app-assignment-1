@@ -54,6 +54,31 @@ public class SmartBankingAppAssignment1{
                     }
                     break;
                 
+                case OPEN_ACCOUNT:
+                    
+                    System.out.printf("ID: SDB-%05d\n", (accountNames.length+1));
+
+                    boolean valid = true;
+                    String name;
+                    do{
+                        System.out.print("Name: ");
+                        name = SCANNER.nextLine().strip();
+                        if(name.isBlank()){
+                            System.out.printf("%sName can't be empty%s \n", COLOR_RED_BOLD, RESET);
+                            valid = false;
+                            continue;
+                        }
+
+                        for (int i = 0; i < name.length(); i++) {
+                            if( !(Character.isLetter(name.charAt(i)) || Character.isSpaceChar(name.charAt(i)))){
+                                System.out.printf("%sInvalid Name%s \n", COLOR_RED_BOLD, RESET);
+                                valid = false;
+                                break;
+                            }
+                        }
+                       
+
+                    }while(!valid);
                 
                 default:
                     System.exit(0);
