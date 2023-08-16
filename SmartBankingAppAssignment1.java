@@ -19,6 +19,7 @@ public class SmartBankingAppAssignment1{
         final String DROP_ACCOUNT = "Drop Existing Account";
 
         String[] accountNames = new String[0];
+        String[] deposits = new String[0];
         String screen = DASHBOARD;
 
         do{
@@ -55,12 +56,15 @@ public class SmartBankingAppAssignment1{
                     break;
                 
                 case OPEN_ACCOUNT:
-                    
-                    System.out.printf("ID: SDB-%05d\n", (accountNames.length+1));
+                    String id = String.format("ID: SDB-%05d", (accountNames.length+1));
+                    System.out.printf("%s\n", id);
 
-                    boolean valid = true;
+                    boolean valid;
                     String name;
+                    
                     do{
+                        valid = true;
+
                         System.out.print("Name: ");
                         name = SCANNER.nextLine().strip();
                         if(name.isBlank()){
@@ -77,8 +81,46 @@ public class SmartBankingAppAssignment1{
                             }
                         }
                        
-
                     }while(!valid);
+
+                    do{
+                        System.out.print("Initial Deposit: ");
+                        int initialDeposit = SCANNER.nextInt();
+                        SCANNER.nextLine();
+                        if (!(initialDeposit >= 5000)){
+                            System.out.printf("%sInvalid Amount! This amount is not enough for initial deposit! %s \n", COLOR_RED_BOLD, RESET);
+                            valid = false;
+                            continue;
+                        }
+                    }while(!valid);
+
+                    // Handling account names
+                    String[] newAccountNames = new String[accountNames.length+1];
+                    for (int i = 0; i < accountNames.length; i++) {
+                        newAccountNames[i] = accountNames[i];
+                    }
+
+                    newAccountNames[newAccountNames.length-1] = name;
+                    accountNames = newAccountNames;
+
+                    // Handling deposits
+
+                    String[] newDeposits = new String[deposits.length+1];
+                    for (int i = 0; i < deposits.length; i++) {
+                        newDeposits[i] = deposits[i];
+                    }
+
+                    newDeposits[newDeposits.length-1] = name;
+                    deposits = newDeposits;
+
+                    System.out.println();
+                    System.out.print(id +":"+ name + " Account has been added successfully. Do you want to add another account (Y/n)? ");
+                    if (SCANNER.nextLine().strip().toUpperCase().equals("Y")){
+                        continue;
+                    } 
+
+                    screen = DASHBOARD;
+                    break;
                 
                 default:
                     System.exit(0);
